@@ -1,0 +1,21 @@
+{
+  "version": "crunch-v1.0.0",
+  "mode": "crunch",
+  "model": "mediapipe-tasks-vision@0.10.32/full/float16/1",
+  "status": "missing-reference-data",
+  "requiredLabels": [
+    "start",
+    "end",
+    "transition",
+    "wrong",
+    "invalid"
+  ],
+  "samples": [],
+  "validation": {
+    "tenRepSequence": "pending",
+    "invalidSequences": "pending",
+    "androidChrome": "pending",
+    "iPhoneSafari": "pending"
+  },
+  "reason": "No appropriately licensed and consented examples extracted with the pinned app model have been acquired. Synthetic unit fixtures are not training data."
+}

@@ -1,0 +1,5 @@
+import {it,expect,vi,afterEach} from 'vitest';
+import {readPending,pendingKey,savePending} from '../src/lib/pending';
+afterEach(()=>vi.unstubAllGlobals());
+it('legacy offline queues become standard without changing event identities',()=>{const data=new Map<string,string>();vi.stubGlobal('localStorage',{getItem:(k:string)=>data.get(k)??null,setItem:(k:string,v:string)=>data.set(k,v)});const legacy={sessionId:'old',startedAt:'2026-09-20T10:00:00Z',nextSeq:2,events:[{seq:1,elapsed_ms:1000}],accepted:1,rejected:0,finishRequested:false};data.set(pendingKey('a'),JSON.stringify(legacy));expect(readPending('a')).toEqual({...legacy,mode:'standard'});savePending('b',{...legacy,mode:'crunch'});expect(readPending('b')?.mode).toBe('crunch');expect(readPending('a')?.mode).toBe('standard');});
+it('does not silently reassign a corrupt or unknown mode',()=>{vi.stubGlobal('localStorage',{getItem:()=>JSON.stringify({sessionId:'x',nextSeq:1,events:[],mode:'unknown'})});expect(()=>readPending('a')).toThrow(/could not be read/);});
